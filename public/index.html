@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<title>Chat</title>
+</head>
+<body>
+	<div id="messages"></div>
+    <label>Send Message to:</label>
+    <select name="Users" id="dropdown">
+        <option value="all">All</option>
+    </select>
+    <br><br>
+    <label>Message:</label>
+    <input type="text" id="message" autofocus>
+    <button type = "button" id = "send">Send</button>
+    <br><br>
+    <label id = "currentName"></label>
+    <br><br>
+    <label>Change Name:</label>
+    <input type="text" id="name">
+    <button type = "button" id = "change">Change</button>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script type = "module"src="/public/script.js"></script>
+</body>
+</html>

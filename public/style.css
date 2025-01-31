@@ -1,0 +1,18 @@
+#messages {
+    border: 1px solid black;
+    height: 300px;
+    overflow: auto;
+    background-color: lightgrey;
+    margin: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.unit {
+    margin-top: 12px;
+}
+
+.message{
+    position: relative;
+    
+}
