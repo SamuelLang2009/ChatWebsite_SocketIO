@@ -1,26 +1,17 @@
 import { Server } from "socket.io";
+import { createServer } from "http";
+import os from "os";
 
 let user = {};
 
-import fs from "fs";
-import https from "https";
-
-const sslOptions = {
-  key: fs.readFileSync("C:/Users/samue/server.key"),  // Path to your private key file
-  cert: fs.readFileSync("C:/Users/samue/server.crt"), // Path to your SSL certificate file
-};
-
-// Create an HTTPS server
-const server = https.createServer(sslOptions, (req, res) => {
-  res.writeHead(200);
-  res.end("HTTPS Server is running!");
+const server = createServer();
+const io = new Server(server, {
+  cors: { origin: "*" }, // Allow all clients to connect (for dev)
 });
 
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-    },
-    host: '0.0.0.0',
+const PORT = 3500;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running at http://${getLocalIp()}:${PORT}`);
 });
 
 io.on("connection", (socket) => {
@@ -50,6 +41,14 @@ io.on("connection", (socket) => {
     })
 });
 
-server.listen(3000, () => {
-    console.log("Server is running on https://10.13.241.165:3000");
-  });
+function getLocalIp() {
+    
+    const interfaces = os.networkInterfaces();
+    for (let iface in interfaces) {
+      for (let i of interfaces[iface]) {
+        if (i.family === "IPv4" && !i.internal) return i.address;
+      }
+    }
+    return "localhost"; // Fallback
+  }
+

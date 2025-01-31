@@ -1,4 +1,4 @@
-const socket = io("https://10.51.4.112:3000");
+const socket = io(window.location.origin);
 
 let name = "";
 
