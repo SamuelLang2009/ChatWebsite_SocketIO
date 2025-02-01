@@ -11,7 +11,8 @@ const io = new Server(server, {
 
 const PORT = 3500;
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running at http://${getLocalIp()}:${PORT}`);
+  console.log(`\nChange the first line in script.js to this:\n\nconst socket = io("http://${getLocalIp()}:${PORT}");`);
+  console.log(`\n\nLink to the website: http://${getLocalIp()}:5500/public/index.html`);
 });
 
 io.on("connection", (socket) => {
@@ -42,13 +43,13 @@ io.on("connection", (socket) => {
 });
 
 function getLocalIp() {
-    
+    let ip = "localhost";
     const interfaces = os.networkInterfaces();
     for (let iface in interfaces) {
       for (let i of interfaces[iface]) {
-        if (i.family === "IPv4" && !i.internal) return i.address;
+        if (i.family === "IPv4" && !i.internal) ip = i.address;
       }
     }
-    return "localhost"; // Fallback
+    return ip; // Fallback
   }
 
