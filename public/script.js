@@ -1,4 +1,4 @@
-const socket = io("http://192.168.100.39:3500");
+const socket = io();
 
 let name = "";
 

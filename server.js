@@ -1,19 +1,23 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
+import express from "express";
 import os from "os";
 
 let user = {};
 
-const server = createServer();
+const app = express();
+const server = createServer(app);
 const io = new Server(server, {
   cors: { origin: "*" }, // Allow all clients to connect (for dev)
 });
 
 const PORT = 3500;
+
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`\nChange the first line in script.js to this:\n\nconst socket = io("http://${getLocalIp()}:${PORT}");`);
-  console.log(`\n\nLink to the website: http://${getLocalIp()}:5500/public/index.html`);
+  console.log(`Server is running on http://${getLocalIp()}:${PORT}`);
 });
+
+app.use(express.static("public"));
 
 io.on("connection", (socket) => {
     socket.emit("Initialize", socket.id);
