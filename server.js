@@ -2,6 +2,8 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 import express from "express";
 import os from "os";
+import mongoose from "mongoose";
+import Message from "./models/Message.js";
 
 let user = {};
 
@@ -19,6 +21,14 @@ server.listen(PORT, "0.0.0.0", () => {
 
 app.use(express.static("public"));
 
+mongoose.connect("mongodb://127.0.0.1:27017/SocketIO_Chat", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoose.connection.once("open", () => console.log("✅ Connected to MongoDB"));
+mongoose.connection.on("error", (err) => console.error("MongoDB Error:", err));
+
 io.on("connection", (socket) => {
     socket.emit("Initialize", socket.id);
 
@@ -30,7 +40,7 @@ io.on("connection", (socket) => {
         io.emit("sendUsers", user);
     })
 
-    socket.on("Send", (message, name, reciever) => {
+    socket.on("Send", async (message, name, reciever) => {
         if(reciever == "all"){
             io.emit("Recieve", message, name, "ALL");
         }
@@ -38,6 +48,13 @@ io.on("connection", (socket) => {
             socket.emit("Recieve", message, name, user[reciever]);
             io.to(reciever).emit("Recieve", message, name, user[reciever]);
         }
+
+        const newMessage = new Message({
+          message: message,
+          sender: name,
+          reciever: reciever,
+        });
+        await newMessage.save();
     })
 
     socket.on("disconnect", (reason) => {
