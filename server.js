@@ -32,6 +32,14 @@ mongoose.connection.on("error", (err) => console.error("MongoDB Error:", err));
 io.on("connection", (socket) => {
     socket.emit("Initialize", socket.id);
 
+    Message.find().then((messages) => {
+        messages.forEach((message) => {
+          if(message.reciever == "all"){
+            socket.emit("Recieve", message.message, message.sender, message.reciever);
+          }
+        })
+    })
+
     user[socket.id] = socket.id;
     io.emit("sendUsers", user);
 
