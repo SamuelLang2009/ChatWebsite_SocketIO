@@ -4,6 +4,8 @@ let name = "";
 
 let counter = 0;
 
+let mode = 0;
+
 socket.on("Initialize", (id) => {
   name = id;
   document.getElementById("currentName").innerHTML = "Current Name: " + name;
@@ -131,3 +133,24 @@ function send_notificataion(sender, message) {
   }
 }
 
+document.getElementById("register-button").addEventListener("click", () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("pwd").value;
+  socket.emit("register", username, password);
+});
+
+document.getElementById("login-button").addEventListener("click", () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("pwd").value;
+  socket.emit("login", username, password);
+});
+
+socket.on("loadChat", (username) => {
+  document.getElementById("chat").style.display = "block";
+  document.getElementById("login").style.display = "none";
+  document.getElementById("currentName").innerHTML = "Current Name: " + username;
+});
+
+socket.on("loginMessage", (message) => {
+  document.getElementById("errors").innerHTML = message;
+});

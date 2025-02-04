@@ -3,27 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<title>Chat</title>
 </head>
 <body>
-	<div id="messages"></div>
-    <label>Send Message to:</label>
-    <select name="Users" id="dropdown">
-        <option value="all">All</option>
-    </select>
-    <br><br>
-    <label>Message:</label>
-    <input type="text" id="message" autofocus>
-    <button type = "button" id = "send">Send</button>
-    <br><br>
-    <label id = "currentName"></label>
-    <br><br>
-    <label>Change Name:</label>
-    <input type="text" id="name">
-    <button type = "button" id = "change">Change</button>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script type = "module"src="/script.js"></script>
+    <div id = "chat" style="display: none;">
+        <div id="messages"></div>
+        <label>Send Message to:</label>
+        <select name="Users" id="dropdown">
+            <option value="all">All</option>
+        </select>
+        <br><br>
+        <label>Message:</label>
+        <input type="text" id="message" autofocus>
+        <button type = "button" id = "send">Send</button>
+        <br><br>
+        <label id = "currentName"></label>
+        <br><br>
+        <label>Change Name:</label>
+        <input type="text" id="name">
+        <button type = "button" id = "change">Change</button>
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    </div>
+    <div id = "login">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="pwd">Password:</label><br>
+        <input type="password" id="pwd" name="pwd">
+        <br><br>
+        <button id = "login-button">Login</button>
+        <button id = "register-button">Register</button>
+        <br><br>
+        <p id = "errors"></p>
+    </div>
+    <script type = "module"src="./script.js"></script>
 </body>
 </html>

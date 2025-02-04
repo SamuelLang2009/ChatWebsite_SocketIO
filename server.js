@@ -4,6 +4,13 @@ import express from "express";
 import os from "os";
 import mongoose from "mongoose";
 import Message from "./models/Message.js";
+import User from "./models/User.js";
+import { fileURLToPath } from "url";
+import path from "path";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let user = {};
 
@@ -19,12 +26,9 @@ server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://${getLocalIp()}:${PORT}`);
 });
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public/")));
 
-mongoose.connect("mongodb://127.0.0.1:27017/SocketIO_Chat", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect("mongodb://127.0.0.1:27017/SocketIO_Chat");
 
 mongoose.connection.once("open", () => console.log("✅ Connected to MongoDB"));
 mongoose.connection.on("error", (err) => console.error("MongoDB Error:", err));
@@ -65,6 +69,29 @@ io.on("connection", (socket) => {
         await newMessage.save();
     })
 
+    socket.on("register", async (username, password) => {
+      if(!doesUserExist(username)){
+        const newUser = new User({
+          username: username,
+          password: password,
+        });
+        await newUser.save();
+        socket.emit("loadChat", username);
+      }
+      socket.emit("loginMessage", "Username already exists!")
+    })
+
+    socket.on("login", (username, password) => {
+      User.find().then((users) => {
+        users.forEach((user) => {
+          if(user.username == username && user.password == password){
+            socket.emit("loadChat", user.username);
+          }
+        })
+      })
+      socket.emit("loginMessage", "Wrong username or password!");
+    })
+
     socket.on("disconnect", (reason) => {
         delete user[socket.id];
         io.emit("sendUsers", user);
@@ -81,4 +108,10 @@ function getLocalIp() {
     }
     return ip; // Fallback
   }
+
+function doesUserExist(username) {
+    const user = User.findOne({ username: username });
+    return user !== null;
+}
+    
 
