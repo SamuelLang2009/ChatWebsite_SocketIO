@@ -70,7 +70,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("register", async (username, password) => {
-      if(!doesUserExist(username)){
+      if(!(await doesUserExist(username))){
         const newUser = new User({
           username: username,
           password: password,
@@ -78,7 +78,9 @@ io.on("connection", (socket) => {
         await newUser.save();
         socket.emit("loadChat", username);
       }
-      socket.emit("loginMessage", "Username already exists!")
+      else{
+        socket.emit("loginMessage", "Username already exists!")
+      }
     })
 
     socket.on("login", (username, password) => {
@@ -109,9 +111,9 @@ function getLocalIp() {
     return ip; // Fallback
   }
 
-function doesUserExist(username) {
-    const user = User.findOne({ username: username });
-    return user !== null;
-}
+  async function doesUserExist(username) {
+    const user = await User.findOne({ username });
+    return user !== null; // Returns true if found, false otherwise
+  }
     
 
