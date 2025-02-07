@@ -25,7 +25,6 @@ document.getElementById("send").addEventListener("click", () => {
   socket.emit("Send", message, name, document.getElementById("dropdown").value);
 });
 
-
 socket.on("Recieve", (message, sender, reciever) => {
   if (reciever == "all" || sender == name || reciever == name) {
     if (counter % 2 == 0) {
