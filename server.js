@@ -36,7 +36,7 @@ mongoose.connection.on("error", (err) => console.error("MongoDB Error:", err));
 io.on("connection", (socket) => {
     socket.on("Send", async (message, name, reciever) => {
         if(reciever == "all"){
-            io.emit("Recieve", message, name, "ALL");
+            io.emit("Recieve", message, name, "all");
         }
         else{
             io.emit("Recieve", message, name, reciever);
