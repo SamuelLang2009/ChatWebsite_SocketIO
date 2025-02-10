@@ -10,30 +10,32 @@
 <body>
     <div id = "chat" style="display: none;">
         <div id="messages"></div>
-        <label>Send Message to:</label>
+        <label class = "text">Send Message to:</label>
         <select name="Users" id="dropdown">
             <option value="all">All</option>
         </select>
         <br><br>
-        <label>Message:</label>
-        <input type="text" id="message" autofocus>
-        <button type = "button" id = "send">Send</button>
+        <label class = "text">Message:</label>
+        <input class = "input" type="text" id="message" autofocus>
+        <button class = "button" type = "button" id = "send">Send</button>
         <br><br>
-        <label id = "currentName"></label>
+        <label class = "text" id = "currentName"></label>
         <br><br>
-        <button onclick = "location.reload()">Log Out</button>
+        <button class = "button" onclick = "location.reload()">Log Out</button>
         <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     </div>
     <div id = "login">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="pwd">Password:</label><br>
-        <input type="password" id="pwd" name="pwd">
+        <label class="text" for="username">Username:</label><br>
+        <input class="input" type="text" id="username" name="username"><br><br>
+        <label class="text" for="pwd">Password:</label><br>
+        <input class="input" type="password" id="pwd" name="pwd">
         <br><br>
-        <button id = "login-button">Login</button>
-        <button id = "register-button">Register</button>
+        <button class="button" id = "login-button">Login</button>
+        <button class="button" id = "register-button">Register</button>
         <br><br>
-        <p id = "errors"></p>
+        <div class = "errors">
+            <p id = "errors"></p>
+        </div>
     </div>
     <script type = "module"src="./script.js"></script>
 </body>

@@ -29,7 +29,7 @@ socket.on("Recieve", (message, sender, reciever) => {
   if (reciever == "all" || sender == name || reciever == name) {
     if (counter % 2 == 0) {
       document.getElementById("messages").innerHTML +=
-        '<div class="unit" style="background-color: white; padding:4px; outline: 1px solid white"><label id = "d' +
+        '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; background-color: lightcyan; padding:4px; outline: 1px solid darkblue"><label id = "d' +
         counter +
         '" class = "lab">' +
         sender +
@@ -42,7 +42,7 @@ socket.on("Recieve", (message, sender, reciever) => {
         "</b></label></div>";
     } else {
       document.getElementById("messages").innerHTML +=
-        '<div class="unit" style="padding:4px; outline: 1px solid black"><label id = "d' +
+        '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; padding:4px; outline: 1px solid darkblue"><label id = "d' +
         counter +
         '" class = "lab">' +
         sender +
@@ -120,7 +120,15 @@ function send_notificataion(sender, message) {
 document.getElementById("register-button").addEventListener("click", () => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("pwd").value;
-  socket.emit("register", username, password);
+  if(username.length <  4){
+    document.getElementById("errors").innerHTML = "Username must be at least 4 characters long";
+  }
+  else if(password.length <  4){
+    document.getElementById("errors").innerHTML = "Password must be at least 4 characters long";
+  }
+  else{
+    socket.emit("register", username, password);
+  }
 });
 
 document.getElementById("login-button").addEventListener("click", () => {
