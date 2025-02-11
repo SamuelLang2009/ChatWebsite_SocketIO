@@ -19,7 +19,7 @@ document.onkeydown = (event) => {
   }
 };
 
-$("#send").click(function(){
+$("#send").click(function () {
   const message = $("#message").val();
   $("#message").val("");
   socket.emit("Send", message, name, $("#dropdown").val());
@@ -30,36 +30,36 @@ socket.on("Recieve", (message, sender, reciever) => {
     if (counter % 2 == 0) {
       $("#messages").append(
         '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; background-color: lightcyan; padding:4px; outline: 1px solid darkblue"><label id = "d' +
-        counter +
-        '" class = "lab">' +
-        sender +
-        " to " +
-        reciever +
-        ': </label><label id = "' +
-        counter +
-        '" class = "message"><b>| ' +
-        message +
-        "</b></label></div>"
+          counter +
+          '" class = "lab">' +
+          sender +
+          " to " +
+          reciever +
+          ': </label><label id = "' +
+          counter +
+          '" class = "message"><b>| ' +
+          message +
+          "</b></label></div>"
       );
     } else {
       $("#messages").append(
         '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; padding:4px; outline: 1px solid darkblue"><label id = "d' +
-        counter +
-        '" class = "lab">' +
-        sender +
-        " to " +
-        reciever +
-        ': </label><label id = "' +
-        counter +
-        '" class = "message"><b>| ' +
-        message +
-        "</b></label></div>"
+          counter +
+          '" class = "lab">' +
+          sender +
+          " to " +
+          reciever +
+          ': </label><label id = "' +
+          counter +
+          '" class = "message"><b>| ' +
+          message +
+          "</b></label></div>"
       );
     }
     counter++;
     var element = document.getElementById("messages");
     element.scrollTop = element.scrollHeight;
-    if($(window).width() > 600){
+    if ($(window).width() > 600) {
       formatText();
     }
   }
@@ -69,7 +69,9 @@ socket.on("sendUsers", (users) => {
   $("#dropdown").html('<option value="all">All</option>');
   for (const [key, value] of Object.entries(users)) {
     if (value != name) {
-      $("#dropdown").append('<option value="' + value + '">' + value + "</option>");
+      $("#dropdown").append(
+        '<option value="' + value + '">' + value + "</option>"
+      );
     }
   }
 });
@@ -92,16 +94,14 @@ function formatText() {
   }
 }
 
-$("#register-button").click(function() {
+$("#register-button").click(function () {
   const username = $("#username").val();
   const password = $("#pwd").val();
-  if(username.length <  4){
+  if (username.length < 4) {
     $("#errors").html("Username must be at least 4 characters long");
-  }
-  else if(password.length <  4){
+  } else if (password.length < 4) {
     $("#errors").html("Password must be at least 4 characters long");
-  }
-  else{
+  } else {
     socket.emit("register", username, password);
   }
 });
