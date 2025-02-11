@@ -1,0 +1,92 @@
+#messages {
+  text-align: left;
+  border: 2px solid darkblue;
+  height: 300px;
+  overflow: auto;
+  background-color: rgb(240, 252, 252);
+  margin-bottom: 12px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.unit {
+  margin-top: 12px;
+}
+
+.message {
+  position: relative;
+}
+
+#login {
+  text-align: center;
+  background-color: lightcyan;
+  padding: 10% 10% 8% 10%;
+  margin: 10%;
+  border: 5px solid darkblue;
+  border-radius: 25px;
+}
+
+.text {
+  font-weight: bold;
+  font-size: 150%;
+}
+
+.errors {
+  background-color: lightcoral;
+  line-height: 250%;
+  outline: 5px solid red;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 150%;
+}
+
+.input {
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  font-size: 120%;
+  background-color: rgb(240, 252, 252);
+  padding: 3px;
+  width: 75%;
+  max-width: 200px;
+}
+
+.input:focus {
+  border: 2px solid darkblue;
+  background-color: rgb(235, 255, 255);
+}
+
+.button {
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  font-size: 120%;
+  background-color: rgb(240, 252, 252);
+  padding: 3px;
+  width: 45%;
+  max-width: 100px;
+}
+
+.button:hover {
+  border-radius: 15px;
+  background-color: rgb(194, 253, 253);
+}
+
+.button:active {
+  background-color: rgb(149, 255, 255);
+  font-weight: bold;
+}
+
+#chat {
+  background-color: lightcyan;
+  padding: 2%;
+  margin: 2%;
+  border: 5px solid darkblue;
+  border-radius: 25px;
+}
+
+#dropdown {
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  font-size: 120%;
+  background-color: rgb(240, 252, 252);
+  padding: 3px;
+}/*# sourceMappingURL=style.css.map */
