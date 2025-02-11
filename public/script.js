@@ -19,16 +19,16 @@ document.onkeydown = (event) => {
   }
 };
 
-document.getElementById("send").addEventListener("click", () => {
-  const message = document.getElementById("message").value;
-  document.getElementById("message").value = "";
-  socket.emit("Send", message, name, document.getElementById("dropdown").value);
+$("#send").click(function(){
+  const message = $("#message").val();
+  $("#message").val("");
+  socket.emit("Send", message, name, $("#dropdown").val());
 });
 
 socket.on("Recieve", (message, sender, reciever) => {
   if (reciever == "all" || sender == name || reciever == name) {
     if (counter % 2 == 0) {
-      document.getElementById("messages").innerHTML +=
+      $("#messages").append(
         '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; background-color: lightcyan; padding:4px; outline: 1px solid darkblue"><label id = "d' +
         counter +
         '" class = "lab">' +
@@ -39,9 +39,10 @@ socket.on("Recieve", (message, sender, reciever) => {
         counter +
         '" class = "message"><b>| ' +
         message +
-        "</b></label></div>";
+        "</b></label></div>"
+      );
     } else {
-      document.getElementById("messages").innerHTML +=
+      $("#messages").append(
         '<div class="unit" style="margin-bottom: 6px; margin-top: 6px; padding:4px; outline: 1px solid darkblue"><label id = "d' +
         counter +
         '" class = "lab">' +
@@ -52,25 +53,23 @@ socket.on("Recieve", (message, sender, reciever) => {
         counter +
         '" class = "message"><b>| ' +
         message +
-        "</b></label></div>";
+        "</b></label></div>"
+      );
     }
     counter++;
     var element = document.getElementById("messages");
     element.scrollTop = element.scrollHeight;
-    formatText();
-    if (sender != name) {
-      send_notificataion(sender, message);
+    if($(window).width() > 600){
+      formatText();
     }
   }
 });
 
 socket.on("sendUsers", (users) => {
-  document.getElementById("dropdown").innerHTML =
-    '<option value="all">All</option>';
+  $("#dropdown").html('<option value="all">All</option>');
   for (const [key, value] of Object.entries(users)) {
     if (value != name) {
-      document.getElementById("dropdown").innerHTML +=
-        '<option value="' + value + '">' + value + "</option>";
+      $("#dropdown").append('<option value="' + value + '">' + value + "</option>");
     }
   }
 });
@@ -93,38 +92,14 @@ function formatText() {
   }
 }
 
-function send_notificataion(sender, message) {
-  // Prüfen, ob der Browser Benachrichtigungen unterstützt
-  if ("Notification" in window) {
-    // Prüfen, ob die Benachrichtigungserlaubnis bereits erteilt wurde
-    if (Notification.permission === "granted") {
-      new Notification(sender, {
-        body: message,
-      });
-    }
-    // Wenn die Erlaubnis nicht erteilt wurde, Benutzer um Erlaubnis bitten
-    else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          new Notification("Benachrichtigungen aktiviert!", {
-            body: "Du hast Benachrichtigungen jetzt aktiviert.",
-          });
-        }
-      });
-    }
-  } else {
-    alert("Benachrichtigungen werden von deinem Browser nicht unterstützt.");
-  }
-}
-
-document.getElementById("register-button").addEventListener("click", () => {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("pwd").value;
+$("#register-button").click(function() {
+  const username = $("#username").val();
+  const password = $("#pwd").val();
   if(username.length <  4){
-    document.getElementById("errors").innerHTML = "Username must be at least 4 characters long";
+    $("#errors").html("Username must be at least 4 characters long");
   }
   else if(password.length <  4){
-    document.getElementById("errors").innerHTML = "Password must be at least 4 characters long";
+    $("#errors").html("Password must be at least 4 characters long");
   }
   else{
     socket.emit("register", username, password);
@@ -132,18 +107,18 @@ document.getElementById("register-button").addEventListener("click", () => {
 });
 
 document.getElementById("login-button").addEventListener("click", () => {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("pwd").value;
+  const username = $("#username").val();
+  const password = $("#pwd").val();
   socket.emit("login", username, password);
 });
 
 socket.on("loadChat", (username) => {
-  document.getElementById("chat").style.display = "block";
-  document.getElementById("login").style.display = "none";
-  document.getElementById("currentName").innerHTML = "Current Name: " + username;
+  $("#chat").css("display", "block");
+  $("#login").css("display", "none");
+  $("#currentName").html("Current Name: " + username);
   name = username;
 });
 
 socket.on("loginMessage", (message) => {
-  document.getElementById("errors").innerHTML = message;
+  $("#errors").html(message);
 });
