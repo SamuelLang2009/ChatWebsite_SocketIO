@@ -1,6 +1,6 @@
 $main-color: rgb(240, 252, 252);
 
-@mixin default-element{
+@mixin default-element {
     border: 2px solid darkblue;
     border-radius: 10px;
     font-size: 120%;
@@ -23,11 +23,11 @@ $main-color: rgb(240, 252, 252);
     margin-top: 12px;
 }
 
-.message{
+.message {
     position: relative;
 }
 
-#login{
+#login {
     text-align: center;
     background-color: lightcyan;
     padding: 10% 10% 8% 10%;
@@ -36,48 +36,48 @@ $main-color: rgb(240, 252, 252);
     border-radius: 25px;
 }
 
-.text{
+.text {
     font-weight: bold;
     font-size: 150%;
 }
 
-.errors{
+.errors {
     background-color: lightcoral;
     line-height: 250%;
     outline: 5px solid red;
     border-radius: 25px;
-    font-weight: bold; 
+    font-weight: bold;
     font-size: 150%;
 }
 
-.input{
+.input {
     @include default-element;
     width: 75%;
     max-width: 200px;
 }
 
-.input:focus{
+.input:focus {
     border: 2px solid darkblue;
     background-color: rgb(235, 255, 255);
 }
 
-.button{
+.button {
     @include default-element;
     width: 45%;
     max-width: 100px;
 }
 
-.button:hover{
+.button:hover {
     border-radius: 15px;
     background-color: rgb(194, 253, 253);
 }
 
-.button:active{
+.button:active {
     background-color: rgb(149, 255, 255);
     font-weight: bold;
 }
 
-#chat{
+#chat {
     background-color: lightcyan;
     padding: 2%;
     margin: 2%;
@@ -85,6 +85,6 @@ $main-color: rgb(240, 252, 252);
     border-radius: 25px;
 }
 
-#dropdown{
+#dropdown {
     @include default-element;
 }
