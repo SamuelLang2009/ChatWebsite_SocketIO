@@ -7,7 +7,9 @@ import Message from "./models/Message.js";
 import User from "./models/User.js";
 import { fileURLToPath } from "url";
 import path from "path";
+import bcrypt from "bcrypt";
 
+const rounds = 10; 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,9 +54,10 @@ io.on("connection", (socket) => {
 
   socket.on("register", async (username, password) => {
     if(!(await doesUserExist(username))){
+      const hash = bcrypt.hashSync(password, rounds);
       const newUser = new User({
         username: username,
-        password: password,
+        password: hash,
       });
       await newUser.save();
       socket.emit("loadChat", username);
@@ -70,11 +73,13 @@ io.on("connection", (socket) => {
   socket.on("login", (username, password) => {
     User.find().then((lusers) => {
       lusers.forEach((luser) => {
-        if(luser.username == username && luser.password == password){
+        if(luser.username == username && bcrypt.compareSync(password, luser.password)){
+          socket.emit("loginMessage", "");
           socket.emit("loadChat", luser.username);
           users[socket.id] = username;
           io.emit("sendUsers", users);
           sendMessages(socket);
+          return;
         }
       })
     })
