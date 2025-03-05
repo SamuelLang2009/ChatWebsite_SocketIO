@@ -10,22 +10,49 @@ document.onkeydown = (event) => {
   if (event.key == "Enter" && document.getElementById("message").value != "") {
     const message = document.getElementById("message").value;
     document.getElementById("message").value = "";
-    socket.emit(
-      "Send",
-      message,
-      name,
-      document.getElementById("dropdown").value
-    );
+    let check = 1;
+    for(let i = 0; i<message.length; i++){
+      if(message[i]=="<"){
+        check = 0;
+        break;
+      }
+    }
+    if(check && message.length!=0){
+      socket.emit("Send", message, name, $("#dropdown").val());
+    }
   }
 };
 
 $("#send").click(function () {
   const message = $("#message").val();
   $("#message").val("");
-  socket.emit("Send", message, name, $("#dropdown").val());
+  let check = 1;
+  for(let i = 0; i<message.length; i++){
+    if(message[i]=="<"){
+      check = 0;
+      break;
+    }
+  }
+  if(check && message.length!=0){
+    socket.emit("Send", message, name, $("#dropdown").val());
+  }
 });
 
 socket.on("Recieve", (message, sender, reciever) => {
+  let check = 1;
+  for(let i = 0; i<message.length; i++){
+    if(message[i]=="<"){
+      check = 0;
+      break;
+    }
+  }
+  for(let i = 0; i<sender.length; i++){
+    if(sender[i]=="<"){
+      check = 0;
+      break;
+    }
+  }
+  if(check && message.length!=0){
   if (reciever == "all" || sender == name || reciever == name) {
     if (counter % 2 == 0) {
       $("#messages").append(
@@ -63,6 +90,7 @@ socket.on("Recieve", (message, sender, reciever) => {
       formatText();
     }
   }
+}
 });
 
 socket.on("sendUsers", (users) => {
@@ -96,6 +124,14 @@ function formatText() {
 
 $("#register-button").click(function () {
   const username = $("#username").val();
+  let check = 1;
+  for(let i = 0; i<username.length; i++){
+    if(username[i]=="<"){
+      check = 0;
+      break;
+    }
+  }
+  if(check){
   const password = $("#pwd").val();
   if (username.length < 4) {
     $("#errors").html("Username must be at least 4 characters long");
@@ -104,12 +140,22 @@ $("#register-button").click(function () {
   } else {
     socket.emit("register", username, password);
   }
+}
 });
 
 document.getElementById("login-button").addEventListener("click", () => {
   const username = $("#username").val();
+  let check = 1;
+  for(let i = 0; i<username.length; i++){
+    if(username[i]=="<"){
+      check = 0;
+      break;
+    }
+  }
+  if(check){
   const password = $("#pwd").val();
   socket.emit("login", username, password);
+  }
 });
 
 socket.on("loadChat", (username) => {
