@@ -17,7 +17,7 @@ document.onkeydown = (event) => {
         break;
       }
     }
-    if(check && message.length!=0){
+    if(check && message.length!=0 && message.length<85){
       socket.emit("Send", message, name, $("#dropdown").val());
     }
   }
@@ -33,7 +33,7 @@ $("#send").click(function () {
       break;
     }
   }
-  if(check && message.length!=0){
+  if(check && message.length!=0 && message.length<85){
     socket.emit("Send", message, name, $("#dropdown").val());
   }
 });
@@ -96,10 +96,19 @@ socket.on("Recieve", (message, sender, reciever) => {
 socket.on("sendUsers", (users) => {
   $("#dropdown").html('<option value="all">All</option>');
   for (const [key, value] of Object.entries(users)) {
-    if (value != name) {
-      $("#dropdown").append(
-        '<option value="' + value + '">' + value + "</option>"
-      );
+    let check = 1
+    for(let i = 0; i<value.length; i++){
+      if(value[i]=="<"){
+        check = 0;
+        break;
+      }
+    }
+    if (check) {
+      if(value!=name){
+        $("#dropdown").append(
+          '<option value="' + value + '">' + value + "</option>"
+        );
+      }
     }
   }
 });
@@ -133,10 +142,12 @@ $("#register-button").click(function () {
   }
   if(check){
   const password = $("#pwd").val();
-  if (username.length < 4) {
-    $("#errors").html("Username must be at least 4 characters long");
+  if (username.length > 50) {
+    $("#errors").html("Username can't be longer than 40 characters!");
+  } else if (username.length < 4) {
+    $("#errors").html("Username must be at least 4 characters long!");
   } else if (password.length < 4) {
-    $("#errors").html("Password must be at least 4 characters long");
+    $("#errors").html("Password must be at least 4 characters long!");
   } else {
     socket.emit("register", username, password);
   }
