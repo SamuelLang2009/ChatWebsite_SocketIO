@@ -34,11 +34,13 @@ $main-color: rgb(240, 252, 252);
     margin: 10%;
     border: 5px solid darkblue;
     border-radius: 25px;
+    font-family: 'Cascadia Code', monospace;
 }
 
 .text {
     font-weight: bold;
     font-size: 150%;
+    font-family: 'Cascadia Code', monospace;
 }
 
 .errors {
@@ -54,6 +56,12 @@ $main-color: rgb(240, 252, 252);
     @include default-element;
     width: 75%;
     max-width: 200px;
+}
+
+.file {
+    @include default-element;
+    width: 75%;
+    max-width: 400px;
 }
 
 .input:focus {

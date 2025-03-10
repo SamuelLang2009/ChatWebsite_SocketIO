@@ -6,20 +6,21 @@ let counter = 0;
 
 let mode = 0;
 
+var selectedFile = 0;
+
+const fileInput = document.getElementById('files');
+fileInput.onchange = () => {
+  selectedFile = fileInput.files[0];
+  console.log(selectedFile);
+}
+
 document.onkeydown = (event) => {
-  if (event.key == "Enter" && document.getElementById("message").value != "") {
-    const message = document.getElementById("message").value;
-    document.getElementById("message").value = "";
-    let check = 1;
-    for(let i = 0; i<message.length; i++){
-      if(message[i]=="<"){
-        check = 0;
-        break;
-      }
+  if (event.key == "Enter") {
+    if(name==""){
+      $("#login-button").click();
+      return;
     }
-    if(check && message.length!=0 && message.length<85){
-      socket.emit("Send", message, name, $("#dropdown").val());
-    }
+    $("#send").click();
   }
 };
 
@@ -34,7 +35,7 @@ $("#send").click(function () {
     }
   }
   if(check && message.length!=0 && message.length<85){
-    socket.emit("Send", message, name, $("#dropdown").val());
+    socket.emit("Send", message, name, $("#dropdown").val(), selectedFile);
   }
 });
 

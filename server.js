@@ -36,7 +36,7 @@ mongoose.connection.once("open", () => console.log("✅ Connected to MongoDB"));
 mongoose.connection.on("error", (err) => console.error("MongoDB Error:", err));
 
 io.on("connection", (socket) => {
-  socket.on("Send", async (message, name, reciever) => {
+  socket.on("Send", async (message, name, reciever, file1) => {
     if(reciever == "all"){
       io.emit("Recieve", message, name, "all");
     }
@@ -44,12 +44,16 @@ io.on("connection", (socket) => {
       io.emit("Recieve", message, name, reciever);
     }
 
-    const newMessage = new Message({
-      message: message,
-      sender: name,
-      reciever: reciever,
-    });
-    await newMessage.save();
+      const newMessage = new Message({
+        message: message,
+        sender: name,
+        reciever: reciever,
+        file: file1 ? {
+          data: file1.data,
+          contentType: file1.contentType,
+          filename: file1.name
+      } : undefined});
+      await newMessage.save();
   })
 
   socket.on("register", async (username, password) => {
