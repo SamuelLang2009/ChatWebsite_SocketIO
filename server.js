@@ -47,12 +47,8 @@ io.on("connection", (socket) => {
       const newMessage = new Message({
         message: message,
         sender: name,
-        reciever: reciever,
-        file: file1 ? {
-          data: file1.data,
-          contentType: file1.contentType,
-          filename: file1.name
-      } : undefined});
+        reciever: reciever
+      });
       await newMessage.save();
   })
 

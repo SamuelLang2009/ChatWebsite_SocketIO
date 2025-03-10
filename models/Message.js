@@ -5,11 +5,6 @@ const messageSchema = new mongoose.Schema({
     sender: {type: String},
     reciever: {type: String},
     timestamp: { type: Date, default: Date.now },
-    file: { 
-        data: Buffer,  
-        contentType: String, 
-        filename: String 
-    }
 });
 
 const Message = mongoose.model("Message", messageSchema);
