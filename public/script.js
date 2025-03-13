@@ -8,6 +8,13 @@ let mode = 0;
 
 var selectedFile = 0;
 
+let u = getCookie("name")
+
+if(u!=""){
+  load(u);
+  socket.emit("request", u);
+}
+
 const fileInput = document.getElementById('files');
 fileInput.onchange = () => {
   selectedFile = fileInput.files[0];
@@ -171,12 +178,44 @@ document.getElementById("login-button").addEventListener("click", () => {
 });
 
 socket.on("loadChat", (username) => {
-  $("#chat").css("display", "block");
-  $("#login").css("display", "none");
-  $("#currentName").html("Current Name: " + username);
-  name = username;
+  load(username);
 });
 
 socket.on("loginMessage", (message) => {
   $("#errors").html(message);
 });
+
+function load(username){
+  setCookie("name", username, 3);
+  $("#chat").css("display", "block");
+  $("#login").css("display", "none");
+  $("#currentName").html("Current Name: " + username);
+  name = username;
+}
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  let expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+$("#logout").click(function(){
+  setCookie("name", "", -1);
+  location.reload();
+})

@@ -90,6 +90,12 @@ io.on("connection", (socket) => {
     delete users[socket.id];
     io.emit("sendUsers", users);
   })
+
+  socket.on("request", (username) => {
+    users[socket.id] = username;
+    io.emit("sendUsers", users);
+    sendMessages(socket);
+  })
 });
 
 function getLocalIp() {
